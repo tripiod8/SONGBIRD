@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const sbInfoSchema = mongoose.Schema({
+    username: {
+        type: String,
+        required: true
+    },
     song: {
         type: String,
         required: true

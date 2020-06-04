@@ -11,7 +11,7 @@ require('dotenv').config()
 require('./config/passport')(passport);
 
 //Connect to Mongo
-mongoose.connect(process.env.DBSTRING,
+mongoose.connect('mongodb://localhost:27017/SongBirdDB',
  { useNewUrlParser: true,
    useUnifiedTopology: true})
 .then(() => console.log('MongoDB connected...'))
@@ -26,7 +26,7 @@ app.use(express.urlencoded({extended: false}));
 
 //Express Session
 app.use(session({
-  secret: process.env.SECRET,
+  secret: 'secret',
   resave: false,
   saveUninitialized: true
 }));

@@ -1,2 +1,9 @@
 
     <h1>You Reached HomeBase</h1>
+    <button><a href="/add">Add Page</a></button><br>
+
+    <% for( let i=0; i<list.length; i++) { %>
+        <p><%= list[i].song %></p>
+        <p><%= list[i].artist %></p>
+        <br>
+    <% } %>

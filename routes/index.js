@@ -17,12 +17,18 @@ router.get('/register', (req, res) => res.render('register'));
 //Login Page
 router.get('/login', (req, res)=> res.render('login'));
 
-//Home Page
-router.get('/home', ensureAuthenticated, (req, res) => res.render('home'));
-
 //Add Page
-router.get('/add', ensureAuthenticated, (req, res) => res.render('add'));
+router.get('/add', ensureAuthenticated, (req, res) => res.render('add', { name: req.user.username }));
+router.get('/shortcut', ensureAuthenticated, (req, res) => res.render('shortcut'));
 
+// Home Page
+router.get('/home', ensureAuthenticated, (req, res) => {
+    InfoSB.find((err, docs) => {        
+        if(!err){
+            res.render('home', {list: docs});
+        };
+    });
+});
 
 //Register Handle
 router.post('/register', (req, res) => {
@@ -59,24 +65,16 @@ router.post('/login', (req, res, next) => {
 
 //Add Handle
 router.post('/add', (req, res) => {
-    const { song, artist } = req.body    
+    const { username, song, artist } = req.body    
     const newInfoSB = new InfoSB({
+        username,
         song,
         artist
     });
     newInfoSB.save()
     .then(post => {
-        res.render('home');
+        res.render('shortcut');
     })
 });
-
-router.get('/home', (req, res) => {
-    InfoSB.find((err, docs) => {
-        if(!err){
-            console.log(docs);
-            res.render('home', {list: docs})
-        }
-    })
-})
 
 module.exports = router;
