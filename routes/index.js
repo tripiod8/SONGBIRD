@@ -7,6 +7,7 @@ const router = express.Router();
 //Models
 const UserSB = require('../models/sbUserSchema');
 const InfoSB = require('../models/sbInfoSchema');
+const TagSB = require('../models/sbTagSchema');
 
 //Welcome Page
 router.get('/', (req, res) => res.render('welcome'));
@@ -17,16 +18,20 @@ router.get('/register', (req, res) => res.render('register'));
 //Login Page
 router.get('/login', (req, res)=> res.render('login'));
 
-//Add Page
+//Add & Shortcut Pages
 router.get('/add', ensureAuthenticated, (req, res) => res.render('add', { name: req.user.username }));
 router.get('/shortcut', ensureAuthenticated, (req, res) => res.render('shortcut'));
 
+router.get('/tag', ensureAuthenticated, (req, res) => res.render('tag',  { name: req.user.username }));
+
 // Home Page
 router.get('/home', ensureAuthenticated, (req, res) => {
-    InfoSB.find((err, docs) => {        
-        if(!err){
-            res.render('home', {list: docs});
-        };
+    InfoSB.find((err, docs) => {
+        if (err) throw err;
+        TagSB.find((err, docs2) => {
+            if (err) throw err;
+            res.render('home', { list: docs, tag: docs2});
+        });
     });
 });
 
@@ -73,6 +78,19 @@ router.post('/add', (req, res) => {
     });
     newInfoSB.save()
     .then(post => {
+        res.render('shortcut');
+    })
+});
+
+//Add Handle
+router.post('/tag', (req, res) => {
+    const { username, tag } = req.body    
+    const newTagSB = new TagSB({
+        username,
+        tag
+    });
+    newTagSB.save()
+    .then(tag => {
         res.render('shortcut');
     })
 });

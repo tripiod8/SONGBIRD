@@ -1,9 +1,19 @@
 
     <h1>You Reached HomeBase</h1>
-    <button><a href="/add">Add Page</a></button><br>
+    <select name="tags" id="tags">
+        <% for(let i=0; i<tag.length; i++){ %>
+            <option value=<%= tag[i].tag %>><%= tag[i].tag %></option>
+        <% } %>
+    </select><br>
+    <button><a href="/add">Add Info</a></button><br>
+    <button><a href="/tag">Add Tag</a></button>
+
+    <h1><%= tag[0].tag %></h1>
 
     <% for( let i=0; i<list.length; i++) { %>
         <p><%= list[i].song %></p>
         <p><%= list[i].artist %></p>
         <br>
     <% } %>
+
+  

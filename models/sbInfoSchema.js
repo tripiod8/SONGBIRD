@@ -12,6 +12,10 @@ const sbInfoSchema = mongoose.Schema({
     artist: {
         type: String,
         required: true
+    },
+    tag: {
+        type: String,
+        required: true
     }
 });
 
