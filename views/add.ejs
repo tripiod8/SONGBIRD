@@ -1,10 +1,16 @@
 <h1>This is the Add Info</h1>
 <form action="/add" method="post">
     <input type="hidden" name="username" value=<%= name %>>
-    <label for="song">Song:</label>
-    <input type="text" name="song" id="song"><br><br>
     <label for="artist">Artist:</label>
     <input type="text" name="artist" id="artist"><br><br>
+    <label for="song">Song:</label>
+    <input type="text" name="song" id="song"><br><br>
+    <label for="Tag">Tag:</label>
+    <select name="tag" id="tags">
+        <% for(let i=0; i<tag.length; i++){ %>
+            <option value=<%= tag[i].tag %>><%= tag[i].tag %></option>
+        <% } %>
+    </select><br><br>
     <input type="submit" value="Submit">
 </form>
-
+<button><a href="/home">Back</a></button>

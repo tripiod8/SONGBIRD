@@ -19,10 +19,17 @@ router.get('/register', (req, res) => res.render('register'));
 router.get('/login', (req, res)=> res.render('login'));
 
 //Add & Shortcut Pages
-router.get('/add', ensureAuthenticated, (req, res) => res.render('add', { name: req.user.username }));
+
 router.get('/shortcut', ensureAuthenticated, (req, res) => res.render('shortcut'));
 
 router.get('/tag', ensureAuthenticated, (req, res) => res.render('tag',  { name: req.user.username }));
+
+router.get('/add', ensureAuthenticated, (req, res) => {
+    TagSB.find((err, docs) => {
+        if (err) throw err;
+        res.render('add', { tag: docs, name: req.user.username })
+    })
+})
 
 // Home Page
 router.get('/home', ensureAuthenticated, (req, res) => {
@@ -70,11 +77,12 @@ router.post('/login', (req, res, next) => {
 
 //Add Handle
 router.post('/add', (req, res) => {
-    const { username, song, artist } = req.body    
+    const { username, song, artist, tag } = req.body    
     const newInfoSB = new InfoSB({
         username,
+        artist,
         song,
-        artist
+        tag
     });
     newInfoSB.save()
     .then(post => {
@@ -94,5 +102,10 @@ router.post('/tag', (req, res) => {
         res.render('shortcut');
     })
 });
+
+router.post('/home', (req, res) => {
+    console.log(req.body);
+    res.redirect('users/home')
+})
 
 module.exports = router;

@@ -49,5 +49,6 @@ app.use((req, res, next) => {
 //Route
 app.use('/', require('./routes/index'));
 
+
 const PORT = 5000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
